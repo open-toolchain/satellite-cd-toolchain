@@ -1,0 +1,83 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: cd-pipeline
+spec:
+  params:
+    - name: deployment-branch
+      description: the branch for the git repo
+      default: "master"
+    - name: configuration-name
+      description: configuration-name
+    - name: directory-path
+      description: directory where deployment files are located
+    - name: pipeline-debug
+      default: "0"
+    - name: apikey
+    - name: toolchain-apikey
+    - name: manifest-repo
+      description: The variable storing git integration for the repository storing build deployment files.
+    - name: api
+      description: the IBM Cloud api endpoint
+      default: "https://cloud.ibm.com"
+    - name: commons-hosted-region
+      default: "https://raw.githubusercontent.com/open-toolchain/commons/master"
+    - name: insights
+      description: The variable storing DevOps Insight integration with the toolchain
+    - name: satellite-cluster-group
+      description: Satelite Cluster Group
+    - name: deployment-file
+    - name: pipeline-name
+    - name: cluster-namespace
+  workspaces:
+    - name: pipeline-ws
+  tasks:
+    - name: git-clone
+      taskRef:
+        name: git-clone-repo
+      params:
+        - name: ibmcloud-apikey-secret-key
+          value: "toolchain-apikey"
+        - name: repository
+          value: $(params.manifest-repo)
+        - name: branch
+          value: $(params.deployment-branch)
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+      workspaces:
+        - name: output
+          workspace: pipeline-ws
+    - name: perform-deployment
+      taskRef:
+        name: execute-on-satelite
+      runAfter: [git-clone]
+      params:
+        - name: shuttle-properties-file
+          value: "build.properties"
+        - name: directory-path
+          value: $(params.directory-path)
+        - name: setup-script
+          value: |
+            export CLUSTER_NAMESPACE="$(params.cluster-namespace)"
+            export APP_NAME="$(params.configuration-name)"
+            export MANIFEST_DIR="$(params.directory-path)"
+            export SATELLITE_CLUSTER_GROUP="$(params.satellite-cluster-group)"
+            export DEPLOYMENT_FILE="$(params.deployment-file)" 
+            echo "SATELLITE_CLUSTER_GROUP $SATELLITE_CLUSTER_GROUP"
+            echo "DEPLOYMENT_FILE $DEPLOYMENT_FILE"
+        - name: script
+          value: |
+            echo "CLUSTER_NAMESPACE :- ${CLUSTER_NAMESPACE}"
+            echo "SATELLITE_CLUSTER_GROUP :- ${SATELLITE_CLUSTER_GROUP}"
+            echo "MANIFEST_DIR $MANIFEST_DIR"
+            source <(curl -sSL "https://raw.githubusercontent.com/akshaykumar-vijapur/scripts/main/deploy_to_satellite.sh")
+        - name: post-execution-script
+          value: |
+            # Keep APP_URL in build.properties shuttle file
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+      workspaces:
+        - name: artifacts
+          workspace: pipeline-ws
+   
