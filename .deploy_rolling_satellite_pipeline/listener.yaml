@@ -1,0 +1,233 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: trigger-template-cd-satellite
+spec:
+  params:
+    - name: deployment-branch
+      description: the branch for the git repo
+      default: "master"
+    - name: configuration-name
+      description: configuration-name
+    - name: directory-path
+      description: directory where deployment files are located
+    - name: pipeline-debug
+      default: "0"
+    - name: apikey
+    - name: toolchain-apikey
+    - name: manifest-repo
+      description: The variable storing git integration for the repository storing build deployment files.
+    - name: api
+      description: the IBM Cloud api endpoint
+      default: "https://cloud.ibm.com"
+    - name: commons-hosted-region
+      default: "https://raw.githubusercontent.com/open-toolchain/commons/master"
+    - name: insights
+      description: The variable storing DevOps Insight integration with the toolchain
+    - name: satellite-cluster-group
+      description: Satelite Cluster Group
+    - name: deployment-file
+    - name: pipeline-name
+    - name: cluster-namespace
+  resourcetemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: cd-pipeline-$(uid)-pvc
+      spec:
+        resources:
+          requests:
+            storage: 5Gi
+        volumeMode: Filesystem
+        accessModes:
+          - ReadWriteOnce
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        name: cd-pipeline-$(uid)
+      spec:
+        pipelineRef:
+          name: cd-pipeline
+        params:
+          - name: directory-path
+            value: $(params.directory-path)
+          - name: deployment-branch
+            value: $(params.deployment-branch)
+          - name: configuration-name
+            value: $(params.configuration-name)
+          - name: pipeline-debug
+            value: $(params.pipeline-debug)
+          - name: apikey
+            value: $(params.apikey)
+          - name: toolchain-apikey
+            value: $(params.toolchain-apikey)
+          - name: manifest-repo
+            value: $(params.manifest-repo) 
+          - name: commons-hosted-region
+            value: $(params.commons-hosted-region)
+          - name: insights
+            value: $(params.insights) 
+          - name: satellite-cluster-group
+            value: $(params.satellite-cluster-group) 
+          - name: cluster-namespace
+            value: $(params.cluster-namespace) 
+          - name: deployment-file
+            value: $(params.deployment-file) 
+          - name:  pipeline-name
+            value: $(params.pipeline-name) 
+        workspaces:
+          - name: pipeline-ws
+            persistentVolumeClaim:
+              claimName: cd-pipeline-$(uid)-pvc
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: trigger-binding-manual
+spec:
+  params:
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: trigger-binding-additional-manual
+spec:
+  params:
+---
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: prod-deploy
+spec:
+  triggers:
+    - binding:
+        name: trigger-binding-additional-manual
+      template:
+        name: trigger-template-cd-satellite
+
+---
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: manual-run
+spec:
+  triggers:
+    - binding:
+        name: trigger-binding-manual
+      template:
+        name: trigger-template-cd-satellite
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: github-ent-commit
+spec:
+  params:
+    - name: branch
+      value: $(event.ref)
+    - name: commit-id
+      value: $(event.after)
+    - name: commit-timestamp
+      value: $(event.repository.pushed_at)
+    - name: repository
+      value: $(event.repository.html_url)
+    - name: scm-type
+      value: "github-ent"
+---        
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: github-ent-commit
+spec:
+  triggers:
+    - bindings: 
+        - name: github-ent-commit   
+      template:
+        name: trigger-template-cd-satellite
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: github-commit
+spec:
+  params:
+    - name: branch
+      value: $(event.ref)
+    - name: commit-id
+      value: $(event.after)
+    - name: commit-timestamp
+      value: $(event.repository.updated_at)
+    - name: repository
+      value: $(event.repository.html_url)
+    - name: scm-type
+      value: "github"
+---
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: github-commit
+spec:
+  triggers:
+    - bindings:  
+        - name: github-commit   
+      template:
+        name: trigger-template-cd-satellite
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: grit-or-gitlab-commit
+spec:
+  params:
+    - name: branch
+      value: $(event.ref)
+    - name: commit-id
+      value: $(event.checkout_sha)
+    - name: commit-timestamp
+      value: $(event.commits[0].timestamp)
+    - name: repository
+      value: $(event.project.http_url)
+    - name: scm-type
+      value: "gitlab"
+---
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: grit-or-gitlab-commit
+spec:
+  triggers:
+    - bindings:   
+        - name: grit-or-gitlab-commit
+      template:
+        name: trigger-template-cd-satellite
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: bitbucket-commit
+spec:
+  params:
+    - name: repository
+      value: "$(event.repository.links.html.href)"
+    - name: revision
+      value: "$(event.push.changes[0].new.target.hash)"
+    - name: branch
+      value: "$(event.push.changes[0].new.name)"
+    - name: commit-timestamp
+      value: "$(event.pull_request.head.repo.pushed_at)"
+    - name: commit-id
+      value: "$(event.pull_request.head.sha)"
+    - name: scm-type
+      value: "bitbucket"
+---
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: bitbucket-commit
+spec:
+  triggers:
+    - binding:
+        name: bitbucket-commit
+      template:
+        name: trigger-template-cd-satellite

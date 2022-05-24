@@ -1,0 +1,152 @@
+---
+version: "2"
+messages:
+  $i18n: locales.yml
+welcome:
+  description:
+    $ref: "#/messages/wizard.welcome.description"
+  prereq:
+    kind: info
+    text:
+      $ref: "#/messages/wizard.welcome.prereq"
+  documentation:
+    text:
+      $ref: "#/messages/wizard.welcome.documentation.link.text"
+    url: https://cloud.ibm.com/docs/devsecops?topic=devsecops-devsecops_intro
+  tutorial:
+    text:
+      $ref: "#/messages/wizard.welcome.tutorial.link.text"
+    url: https://cloud.ibm.com/docs/devsecops?topic=devsecops-tutorial-cd-devsecops
+steps:
+  - name: manifest
+    label:
+      $ref: "#/messages/wizard.step.manifest.label"
+    title:
+      $ref: "#/messages/wizard.step.manifest.title"
+    form: wizard_manifest
+    advanced_form: manifest-repo
+    conditions:
+      $ref: conditions.yml#/inv_repo_conditions    
+
+  - name: vault
+    title:
+      $ref: "#/messages/wizard.step.vault.title"
+    form: wizard_vault
+    secretsStep: true
+    conditions:
+      - condition:
+          any:
+            - parameter: key-protect
+              value: true
+        actions:
+          - type: create-service
+            service_id: keyprotect
+            service_label: kp-vault
+            parameters:
+              name: kp-compliance-secrets
+      - condition:
+          any:
+            - parameter: key-protect
+              value: false
+        actions:
+          - type: delete-service
+            service_id: keyprotect
+            service_label: kp-vault
+      - condition:
+          any:
+            - parameter: secrets-manager
+              value: true
+        actions:
+          - type: create-service
+            service_id: secretsmanager
+            service_label: sm-vault
+            parameters:
+              name: sm-compliance-secrets
+      - condition:
+          any:
+            - parameter: secrets-manager
+              value: false
+        actions:
+          - type: delete-service
+            service_id: secretsmanager
+            service_label: sm-vault
+      - condition:
+          any:
+            - parameter: hashicorp-vault
+              value: true
+        actions:
+          - type: create-service
+            service_id: hashicorpvault
+            service_label: hc-vault
+            parameters:
+              name: "hc-compliance-secrets"
+              authentication_method: "approle"
+      - condition:
+          any:
+            - parameter: hashicorp-vault
+              value: false
+        actions:
+          - type: delete-service
+            service_id: hashicorpvault
+            service_label: hc-vault
+  - name: keyprotect
+    indent_level: 1
+    title:
+      $ref: "#/messages/wizard.step.keyprotect.title"
+    form: keyprotect
+    visible:
+      condition:
+        any:
+          - form: wizard_vault
+            parameter: key-protect
+            value: true
+  - name: secretsmanager
+    indent_level: 1
+    form: secretsmanager
+    title:
+      $ref: "#/messages/wizard.step.secretsmanager.title"
+    visible:
+      condition:
+        any:
+          - form: wizard_vault
+            parameter: secrets-manager
+            value: true
+  - name: hashicorpvault
+    indent_level: 1
+    title:
+      $ref: "#/messages/wizard.step.hashicorpvault.title"
+    form: hashicorpvault
+    visible:
+      condition:
+        any:
+          - form: wizard_vault
+            parameter: hashicorp-vault
+            value: true
+  - name: pipelinesettings
+    title:
+      $ref: "#/messages/wizard.step.pipelinesettings.title"
+    form: pipeline_settings_form
+
+  - name: deploysatconfig
+    title:
+      $ref: "#/messages/wizard.step.deploysatconfig.title"
+    form: satconfig_pipeline
+
+  - name: summary
+    title:
+      $ref: "#/messages/wizard.step.summary.title"
+    form: wizard_summary
+
+form:
+  wizard_vault:
+    parameters:
+      key-protect: false
+      hashicorp-vault: false
+      secrets-manager: true
+    schema:
+      $ref: wizard_vault.json
+
+
+  wizard_summary:
+    schema:
+      $ref: wizard_summary.json

@@ -1,0 +1,209 @@
+---
+version: "3"
+messages:
+  $i18n: locales.yml
+template:
+  name:
+    $ref: "#/messages/template.name"
+  description:
+    $ref: "#/messages/template.description"
+  header: "![](toolchain.svg?localize)"
+  icon: secure-lock-kubernetes.svg
+  required:
+    - build
+    - repo
+    - tekton-catalog-repo
+    - tekton-gitsecure
+  $configuration:
+     ENABLE_EXTENSIONS: true
+     ENABLE_IF_ELSE: true
+  info:
+    git url: >
+      "[" + $env.repository + "]" +
+        "(" + $env.repository + ")"
+    git branch: >
+      "[" + $env.branch + "]" +
+        "(" + $env.repository +
+          "/tree/" + $env.branch + ")"
+    hosted_region: ""
+  wizard:
+    $ref: wizard.yml
+toolchain:
+  name: "cd-satellite-{{timestamp}}"
+  template:
+    getting_started:
+      $ref: "#/messages/template.gettingStarted"
+services:
+  sm-vault:
+    service_id: secretsmanager
+    parameters:
+      name: >
+        $env.smName ? '{{smName}}' : 'sm-compliance-secrets'
+      region: >
+        $env.smRegion ? '{{smRegion}}' : ''
+      resource-group: >
+        $env.smResourceGroup ? '{{smResourceGroup}}' : ''
+      instance-name: >
+        $env.smInstanceName ? '{{smInstanceName}}' : ''
+  pipeline-repo:
+    service_id: >
+      if ( $env.ENABLE_SETUP_WIZARD === 'true' ) {
+        'hostedgit';
+      } else {
+        $env.source_provider ? $env.source_provider : 'hostedgit';
+      }
+    parameters:
+      repo_name: "pipeline-repo-{{toolchain.name}}"
+      repo_url: >
+        if ( $env.template.info.hosted_region !== "" ) {
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/secure-app-toolchain"
+        } else {
+          "https://github.ibm.com/AkshayKumar-Vijapur/cd-satellite-toolchain"
+        }
+      source_repo_url: >
+        if ( $env.template.info.hosted_region !== "" ) {
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/secure-app-toolchain"
+        } else {
+          "https://github.ibm.com/AkshayKumar-Vijapur/cd-satellite-toolchain"
+        }
+      type: $env.type || 'clone'
+      has_issues: false
+      enable_traceability: false
+      legal: true
+      kind: ['pipeline']
+      source_provider: 'hostedgit'
+  manifest-repo:
+    service_id: >
+      if ( $env.ENABLE_SETUP_WIZARD === 'true' ) {
+        'hostedgit';
+      } else {
+        $env.inv_source_provider ? $env.inv_source_provider : 'hostedgit';
+      } 
+    parameters:
+      repo_name: 'manifest-repo-{{toolchain.name}}'
+      type: $env.type || 'clone'
+      repo_url: >
+        $env.inventory_repo ? $env.inventory_repo : $env.inventoryRepo ? '{{inventoryRepo}}' : 
+        $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/inventory':
+        'https://us-south.git.cloud.ibm.com/akshay-dev/manifest-repo'
+      source_repo_url: >
+        $env.inventory_repo ? $env.inventory_repo : $env.inventoryRepo ? '{{inventoryRepo}}' : 
+        $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/inventory':
+        'https://us-south.git.cloud.ibm.com/akshay-dev/manifest-repo'
+      has_issues: false
+      enable_traceability: false
+      legal: true
+      source_provider: 'hostedgit'
+  tekton-catalog-repo:
+    service_id: >
+      if ( $env.ENABLE_SETUP_WIZARD === 'true' ) {
+        'hostedgit';
+      } else {
+        $env.source_provider ? $env.source_provider : 'hostedgit';
+      }
+    parameters:
+      repo_name: 'tekton-catalog-{{toolchain.name}}'
+      repo_url: >
+        if ( $env.template.info.hosted_region !== "" ) {
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/tekton-catalog"
+        } else {
+          "https://github.com/open-toolchain/tekton-catalog"
+        }
+      source_repo_url: >
+        if ( $env.template.info.hosted_region !== "" ) {
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/tekton-catalog"
+        } else {
+          "https://github.com/open-toolchain/tekton-catalog"
+        }
+      type: 'clone'
+      has_issues: false
+      enable_traceability: false
+      kind: ['pipeline']
+      source_provider: 'hostedgit'
+  deploy:
+    service_id: pipeline
+    parameters:
+      services:
+        - repo
+        - manifest-repo
+      name: "{{form.pipeline_settings_form.parameters.pipeline-name}}"
+      ui-pipeline: true
+      type: tekton
+      configuration:
+        content:
+          $text: "deploy_rolling_satellite_pipeline_tekton.yml"
+        env:
+          API_KEY: "{{form.satconfig_pipeline.parameters.api-key}}"
+          SATELLITE_CLUSTER_GROUP: "{{form.satconfig_pipeline.parameters.satellite-cluster-group}}"
+          CLUSTER_NAMESPACE: "{{form.satconfig_pipeline.parameters.prod-cluster-namespace}}"
+          CONFIGURATION_NAME: "{{form.satconfig_pipeline.parameters.configuration-name}}"
+          DEPLOYMENT_BRANCH: "{{form.satconfig_pipeline.parameters.deployment-branch}}"
+          DIRECTORY_PATH: "{{form.satconfig_pipeline.parameters.manifest-directory-path}}"
+          PIPELINE_REPO: pipeline-repo
+          PIPELINE_REPO_BRANCH: >
+            $env.branch ? $env.branch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          INVENTORY_REPO: manifest-repo
+          TEKTON_CATALOG_REPO: tekton-catalog-repo
+          GIT_COMMIT_EVENT_LISTENER_NAME: >
+            if ( $env.ENABLE_SETUP_WIZARD === 'true') {
+              'grit-or-gitlab-commit';
+            } else {
+              if ( $env.source_provider === 'githubconsolidated' ) {
+                'github-commit';
+              } else if ( $env.source_provider === 'gitlab' ) {
+                'grit-or-gitlab-commit';
+              } else if ( $env.source_provider === 'bitbucketgit' ) {
+                'bitbucket-commit';
+              } else if ( $env.source_provider === 'github_integrated' ) {
+                'github-ent-commit';
+              } else {
+                'grit-or-gitlab-commit';
+              }
+            }
+          COMMONS_HOSTED_REGION: >
+            $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/commons/-/raw/main':
+            'https://raw.githubusercontent.com/open-toolchain/commons/master'
+          DEFINITIONS_BRANCH: >
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          PIPELINE_NAME: "{{form.pipeline_settings_form.parameters.pipeline-name}}"
+
+        execute: false
+  webide:
+    service_id: orion
+
+
+form:
+  pipeline_settings_form:
+    parameters:
+      pipeline-name: >
+        $env.pipelineName ? '{{pipelineName}}' : ''
+    schema:
+      $ref: pipeline_settings.json
+
+  satconfig_pipeline:
+    parameters:
+      api-key: >
+        $env.ibmCloudApiKey ? '{{ibmCloudApiKey}}' : '{vault::ibmcloud-api-key}'
+      configuration-name: >
+        $env.configurationName ? '{{configurationName}}' : '{{toolchain.name}}'
+      repo-url: '{{services.manifest-repo.parameters.repo_url}}'
+      manifest-directory-path: >
+        $env.manifestDirectoryPath ? '{{manifestDirectoryPath}}' : ''
+      deployment-branch: >
+        $env.deploymentBranch ? '{{deploymentBranch}}' : ''
+      satellite-cluster-group: >
+        $env.satelliteClusterGroup ? '{{satelliteClusterGroup}}' : ''
+      prod-cluster-namespace: >
+        $env.prodClusterNamespace ? '{{prodClusterNamespace}}' : 'prod'
+    schema:
+      $ref: deploy_sat.json
+
+  wizard_manifest:
+    schema:
+      $ref: wizard_manifest.json
+
+
+      
+
+  

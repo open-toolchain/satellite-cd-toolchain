@@ -1,0 +1,60 @@
+{
+   "$schema": "http://json-schema.org/draft-04/schema#",
+   "messages": {
+      "$i18n": "locales.yml"
+   },
+   "title": {
+      "$ref": "#/messages/deploy_pipeline.title"
+   },
+   "description": {
+      "$ref": "#/messages/deploy_pipeline.description"
+   },
+   "longDescription": {
+      "$ref": "#/messages/deploy.deploy_pipeline.longDescription"
+   },
+   "type": "object",
+   "properties": {
+      "pipeline-name": {
+         "description": {
+            "$ref": "#/messages/deploy.pipeline.name"
+         },
+         "type": "string",
+         "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+      }
+   },
+   "required": [
+      "pipeline-name"
+   ],
+   "form": [
+      {
+         "type": "validator",
+         "url": "/devops/validator/validator-v1.html"
+      },
+      {
+         "type": "notification",
+         "display": {
+            "style": "info",
+            "subtitle": {
+               "$ref": "#/messages/wizard.pipeline.notification"
+            }
+         }
+      },
+      {
+         "type": "info",
+         "text": {
+             "$ref": "#/messages/deploy.pipeline.info"
+         }
+     },
+      {
+         "type": "text",
+         "readonly": false,
+         "title": {
+            "$ref": "#/messages/deploy.pipeline.name"
+         },
+         "placeholder": {
+            "$ref": "#/messages/deploy.pipeline.name.placeholder"
+         },
+         "key": "pipeline-name"
+      }
+   ]
+}

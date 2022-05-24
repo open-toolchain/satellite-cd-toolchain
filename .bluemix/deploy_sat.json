@@ -1,0 +1,267 @@
+{
+   "$schema": "http://json-schema.org/draft-04/schema#",
+   "messages": {
+      "$i18n": "locales.yml"
+   },
+   "title": {
+      "$ref": "#/messages/deploy.title"
+   },
+   "description": {
+      "$ref": "#/messages/deploy.description"
+   },
+   "longDescription": {
+      "$ref": "#/messages/deploy.satellite.longDescription"
+   },
+   "type": "object",
+   "properties": {
+      "repo-url": {
+         "type": "string",
+         "pattern": "\\S",
+         "validator": {
+            "v-type": "repo-url"
+         }
+      },
+      "api-key": {
+         "description": {
+            "$ref": "#/messages/deploy.apikeyDescription"
+         },
+         "type": "string",
+         "pattern": "\\S",
+         "validator": {
+            "v-type": "api-key"
+         }
+      },
+      "satellite-cluster-group": {
+         "description": {
+            "$ref": "#/messages/deploy.satelliteClusterGroup"
+         },
+         "type": "string",
+         "validator": {
+            "v-type": "sat-cluster-group",
+            "params": [
+               "api-key"
+            ]
+         }
+      },
+      "prod-cluster-namespace": {
+         "description": {
+            "$ref": "#/messages/deploy.namespaceDescription"
+         },
+         "type": "string",
+         "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+      },
+      "manifest-directory-path": {
+         "description": {
+            "$ref": "#/messages/deploy.directory"
+         },
+         "validator": {
+            "v-type": "repo-dir",
+            "params": [
+               "deployment-branch",
+               "api-key"
+            ],
+            "validate": false
+         },
+         "type": "string"
+      },
+      "configuration-name": {
+         "description": {
+            "$ref": "#/messages/deploy.configuration.name"
+         },
+         "type": "string",
+         "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+      },
+      "deployment-branch": {
+         "description": {
+            "$ref": "#/messages/deploy.branch"
+         }, 
+         "validator": {
+            "v-type": "repo-branch",
+            "params": [
+               "repo-url",
+               "api-key"
+            ],
+            "validate": false
+         },
+         "type": "string"
+      }
+   },
+   "required": [
+      "api-key",
+      "satellite-cluster-group",
+      "manifest-directory-path",
+      "deployment-branch",
+      "configuration-name",
+      "prod-cluster-namespace"
+   ],
+   "form": [
+      {
+         "type": "validator",
+         "url": "/devops/validator/validator-v1.html"
+      },
+      {
+         "type": "notification",
+         "display": {
+            "style": "info",
+            "subtitle": {
+               "$ref": "#/messages/wizard.deploy.sat.hint.prereq"
+            }
+         }
+      },
+      {
+         "type": "info",
+         "text": {
+            "$ref": "#/messages/deploy.apikey.info"
+         }
+      },
+      {
+         "type": "password",
+         "readonly": false,
+         "title": {
+            "$ref": "#/messages/deploy.apikey"
+         },
+         "key": "api-key"
+      },
+      {
+         "type": "info",
+         "text": {
+            "$ref": "#/messages/deploy.namespace.info"
+         }
+      },
+      {
+         "type": "text",
+         "key": "prod-cluster-namespace",
+         "readonly": false,
+         "title": {
+            "$ref": "#/messages/deploy.namespace.title"
+         },
+         "placeholder": {
+            "$ref": "#/messages/deploy.namespace.PlaceHolder"
+         }
+      },
+      {
+         "type": "info",
+         "text": {
+            "$ref": "#/messages/deploy.gitops.info"
+         }
+      },
+      {
+         "type": "table",
+         "columnCount": 3,
+         "widths": [
+            "48%",
+            "4%",
+            "48%"
+         ],
+         "items": [
+            {
+               "type": "label",
+               "title": {
+                  "$ref": "#/messages/deploy.deployment.branch"
+               },
+               "tooltip": {
+                  "$ref": "#/messages/deploy.branch.tooltip"
+               }
+            },
+            {
+               "type": "label",
+               "title": ""
+            },
+            {
+               "type": "label",
+               "title": {
+                  "$ref": "#/messages/deploy.directory.title"
+               },
+               "tooltip": {
+                  "$ref": "#/messages/deploy.path.tooltip"
+               }
+            },
+            {
+               "type": "text",
+               "key": "deployment-branch",
+               "readonly": false,
+               "title": {
+                  "$ref": "#/messages/deploy.deployment.branch"
+               },
+               "placeholder": {
+                  "$ref": "#/messages/deploy.deployment.branch.placeholder"
+               }
+            },
+            {
+               "type": "label",
+               "title": ""
+            },
+            {
+               "type": "text",
+               "key": "manifest-directory-path",
+               "readonly": false,
+               "title": {
+                  "$ref": "#/messages/deploy.directory.title"
+               },
+               "placeholder": {
+                  "$ref": "#/messages/deploy.directory.placeholder"
+               }
+            }
+         ]
+      },
+      {
+         "type": "table",
+         "columnCount": 3,
+         "widths": [
+            "48%",
+            "4%",
+            "48%"
+         ],
+         "items": [
+            {
+               "type": "label",
+               "title": {
+                  "$ref": "#/messages/deploy.satellite"
+               },
+               "tooltip": {
+                  "$ref": "#/messages/deploy.clustergroup.tooltip"
+               }
+            },
+            {
+               "type": "label",
+               "title": ""
+            },
+            {
+               "type": "label",
+               "title": {
+                  "$ref": "#/messages/deploy.config.title"
+               },
+               "tooltip": {
+                  "$ref": "#/messages/deploy.config.tooltip"
+               }
+            },
+            {
+               "type": "select",
+               "key": "satellite-cluster-group",
+               "readonly": false,
+               "title": {
+                  "$ref": "#/messages/deploy.satellite"
+               },
+               "placeholder": {
+                  "$ref": "#/messages/deploy.satellite.placeholder"
+               }
+            },
+            {
+               "type": "label",
+               "title": ""
+            },
+            {
+               "type": "text",
+               "key": "configuration-name",
+               "readonly": false,
+               "title": {
+                  "$ref": "#/messages/deploy.config.title"
+               },
+               "placeholder": {
+                  "$ref": "#/messages/deploy.config.PlaceHolder"
+               }
+            }
+         ]
+      }
+   ]
+}
