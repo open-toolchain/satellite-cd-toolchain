@@ -16,7 +16,7 @@ spec:
       default: "0"
     - name: apikey
     - name: toolchain-apikey
-    - name: manifest-repo
+    - name: source-repo
       description: The variable storing git integration for the repository storing build deployment files.
     - name: api
       description: the IBM Cloud api endpoint
@@ -40,7 +40,7 @@ spec:
         - name: ibmcloud-apikey-secret-key
           value: "toolchain-apikey"
         - name: repository
-          value: $(params.manifest-repo)
+          value: $(params.source-repo)
         - name: branch
           value: $(params.deployment-branch)
         - name: pipeline-debug

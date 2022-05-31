@@ -16,7 +16,7 @@
    "properties": {
       "pipeline-name": {
          "description": {
-            "$ref": "#/messages/deploy.pipeline.name"
+            "$ref": "#/messages/deploy.pipeline.name.desc"
          },
          "type": "string",
          "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
@@ -29,15 +29,6 @@
       {
          "type": "validator",
          "url": "/devops/validator/validator-v1.html"
-      },
-      {
-         "type": "notification",
-         "display": {
-            "style": "info",
-            "subtitle": {
-               "$ref": "#/messages/wizard.pipeline.notification"
-            }
-         }
       },
       {
          "type": "info",

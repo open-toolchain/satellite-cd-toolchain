@@ -200,7 +200,7 @@ inv_repo_conditions:
     actions:
       - type: update-service
         service_id: hostedgit
-        service_label: manifest-repo
+        service_label: source-repo
         parameters:
           source_provider: hostedgit
         keep_parameters:
@@ -232,7 +232,7 @@ inv_repo_conditions:
     actions:
       - type: update-service
         service_id: githubconsolidated
-        service_label: manifest-repo
+        service_label: source-repo
         parameters:
           source_provider: githubconsolidated
         keep_parameters:
@@ -264,7 +264,7 @@ inv_repo_conditions:
     actions:
       - type: update-service
         service_id: gitlab
-        service_label: manifest-repo
+        service_label: source-repo
         parameters:
           source_provider: gitlab
         keep_parameters:
@@ -296,7 +296,7 @@ inv_repo_conditions:
     actions:
       - type: update-service
         service_id: bitbucketgit
-        service_label: manifest-repo
+        service_label: source-repo
         parameters:
           source_provider: bitbucketgit
         keep_parameters:
@@ -328,7 +328,7 @@ inv_repo_conditions:
     actions:
       - type: update-service
         service_id: github_integrated
-        service_label: manifest-repo
+        service_label: source-repo
         parameters:
           source_provider: github_integrated
         keep_parameters:
@@ -360,7 +360,7 @@ inv_repo_conditions:
     actions:
       - type: update-service
         service_id: hostedgit
-        service_label: manifest-repo
+        service_label: source-repo
         parameters:
           source_provider: hostedgit
         keep_parameters:

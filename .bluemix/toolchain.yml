@@ -56,15 +56,15 @@ services:
       repo_name: "pipeline-repo-{{toolchain.name}}"
       repo_url: >
         if ( $env.template.info.hosted_region !== "" ) {
-          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/secure-app-toolchain"
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/satellite-cd-toolchain"
         } else {
-          "https://github.ibm.com/AkshayKumar-Vijapur/cd-satellite-toolchain"
+          "https://github.ibm.com/open-toolchain/satellite-cd-toolchain"
         }
       source_repo_url: >
         if ( $env.template.info.hosted_region !== "" ) {
-          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/secure-app-toolchain"
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/satellite-cd-toolchain"
         } else {
-          "https://github.ibm.com/AkshayKumar-Vijapur/cd-satellite-toolchain"
+          "https://github.ibm.com/open-toolchain/satellite-cd-toolchain"
         }
       type: $env.type || 'clone'
       has_issues: false
@@ -72,7 +72,7 @@ services:
       legal: true
       kind: ['pipeline']
       source_provider: 'hostedgit'
-  manifest-repo:
+  source-repo:
     service_id: >
       if ( $env.ENABLE_SETUP_WIZARD === 'true' ) {
         'hostedgit';
@@ -80,7 +80,7 @@ services:
         $env.inv_source_provider ? $env.inv_source_provider : 'hostedgit';
       } 
     parameters:
-      repo_name: 'manifest-repo-{{toolchain.name}}'
+      repo_name: 'source-repo-{{toolchain.name}}'
       type: $env.type || 'clone'
       repo_url: >
         $env.inventory_repo ? $env.inventory_repo : $env.inventoryRepo ? '{{inventoryRepo}}' : 
@@ -125,7 +125,7 @@ services:
     parameters:
       services:
         - repo
-        - manifest-repo
+        - source-repo
       name: "{{form.pipeline_settings_form.parameters.pipeline-name}}"
       ui-pipeline: true
       type: tekton
@@ -143,7 +143,7 @@ services:
           PIPELINE_REPO_BRANCH: >
             $env.branch ? $env.branch : 
             $env.template.info.hosted_region !== "" ? 'main': 'master'
-          INVENTORY_REPO: manifest-repo
+          INVENTORY_REPO: source-repo
           TEKTON_CATALOG_REPO: tekton-catalog-repo
           GIT_COMMIT_EVENT_LISTENER_NAME: >
             if ( $env.ENABLE_SETUP_WIZARD === 'true') {
@@ -186,8 +186,8 @@ form:
       api-key: >
         $env.ibmCloudApiKey ? '{{ibmCloudApiKey}}' : '{vault::ibmcloud-api-key}'
       configuration-name: >
-        $env.configurationName ? '{{configurationName}}' : '{{toolchain.name}}'
-      repo-url: '{{services.manifest-repo.parameters.repo_url}}'
+        $env.configurationName ? '{{configurationName}}' : ''
+      repo-url: '{{services.source-repo.parameters.repo_url}}'
       manifest-directory-path: >
         $env.manifestDirectoryPath ? '{{manifestDirectoryPath}}' : ''
       deployment-branch: >

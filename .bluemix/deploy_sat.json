@@ -54,14 +54,6 @@
          "description": {
             "$ref": "#/messages/deploy.directory"
          },
-         "validator": {
-            "v-type": "repo-dir",
-            "params": [
-               "deployment-branch",
-               "api-key"
-            ],
-            "validate": false
-         },
          "type": "string"
       },
       "configuration-name": {
@@ -104,14 +96,8 @@
          "display": {
             "style": "info",
             "subtitle": {
-               "$ref": "#/messages/wizard.deploy.sat.hint.prereq"
+               "$ref": "#/messages/wizard.welcome.prereq"
             }
-         }
-      },
-      {
-         "type": "info",
-         "text": {
-            "$ref": "#/messages/deploy.apikey.info"
          }
       },
       {

@@ -18,13 +18,13 @@ welcome:
       $ref: "#/messages/wizard.welcome.tutorial.link.text"
     url: https://cloud.ibm.com/docs/devsecops?topic=devsecops-tutorial-cd-devsecops
 steps:
-  - name: manifest
+  - name: source
     label:
       $ref: "#/messages/wizard.step.manifest.label"
     title:
       $ref: "#/messages/wizard.step.manifest.title"
     form: wizard_manifest
-    advanced_form: manifest-repo
+    advanced_form: source-repo
     conditions:
       $ref: conditions.yml#/inv_repo_conditions    
 
@@ -142,7 +142,7 @@ form:
     parameters:
       key-protect: false
       hashicorp-vault: false
-      secrets-manager: true
+      secrets-manager: false
     schema:
       $ref: wizard_vault.json
 
