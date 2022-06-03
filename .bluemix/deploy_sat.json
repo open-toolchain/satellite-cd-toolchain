@@ -109,12 +109,6 @@
          "key": "api-key"
       },
       {
-         "type": "info",
-         "text": {
-            "$ref": "#/messages/deploy.namespace.info"
-         }
-      },
-      {
          "type": "text",
          "key": "prod-cluster-namespace",
          "readonly": false,
