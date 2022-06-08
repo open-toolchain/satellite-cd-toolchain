@@ -16,7 +16,7 @@ welcome:
   tutorial:
     text:
       $ref: "#/messages/wizard.welcome.tutorial.link.text"
-    url: https://cloud.ibm.com/docs/devsecops?topic=devsecops-tutorial-cd-devsecops
+    url: https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-only-satellite
 steps:
   - name: source
     label:
