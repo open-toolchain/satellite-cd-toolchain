@@ -191,7 +191,7 @@ form:
       manifest-directory-path: >
         $env.manifestDirectoryPath ? '{{manifestDirectoryPath}}' : ''
       deployment-branch: >
-        $env.deploymentBranch ? '{{deploymentBranch}}' : ''
+        $env.deploymentBranch ? '{{deploymentBranch}}' : 'main'
       satellite-cluster-group: >
         $env.satelliteClusterGroup ? '{{satelliteClusterGroup}}' : ''
       prod-cluster-namespace: >
