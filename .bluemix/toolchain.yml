@@ -34,17 +34,6 @@ toolchain:
     getting_started:
       $ref: "#/messages/template.gettingStarted"
 services:
-  sm-vault:
-    service_id: secretsmanager
-    parameters:
-      name: >
-        $env.smName ? '{{smName}}' : 'sm-compliance-secrets'
-      region: >
-        $env.smRegion ? '{{smRegion}}' : ''
-      resource-group: >
-        $env.smResourceGroup ? '{{smResourceGroup}}' : ''
-      instance-name: >
-        $env.smInstanceName ? '{{smInstanceName}}' : ''
   pipeline-repo:
     service_id: >
       if ( $env.ENABLE_SETUP_WIZARD === 'true' ) {
@@ -169,8 +158,6 @@ services:
           PIPELINE_NAME: "{{form.pipeline_settings_form.parameters.pipeline-name}}"
 
         execute: false
-  webide:
-    service_id: orion
 
 
 form:
