@@ -66,23 +66,17 @@ services:
       if ( $env.ENABLE_SETUP_WIZARD === 'true' ) {
         'hostedgit';
       } else {
-        $env.inv_source_provider ? $env.inv_source_provider : 'hostedgit';
+        $env.inv_source_provider ? $env.inv_source_provider : 'githubconsolidated';
       } 
     parameters:
       repo_name: 'source-repo-{{toolchain.name}}'
       type: $env.type || 'clone'
-      repo_url: >
-        $env.inventory_repo ? $env.inventory_repo : $env.inventoryRepo ? '{{inventoryRepo}}' : 
-        $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/satellite-source-sample':
-        'https://github.com/open-toolchain/satellite-source-sample'
-      source_repo_url: >
-        $env.inventory_repo ? $env.inventory_repo : $env.inventoryRepo ? '{{inventoryRepo}}' : 
-        $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/satellite-source-sample':
-        'https://github.com/open-toolchain/satellite-source-sample'
+      repo_url: 'https://github.com/IBM/satellite-config-example'
+      source_repo_url: 'https://github.com/IBM/satellite-config-example'
       has_issues: false
       enable_traceability: false
       legal: true
-      source_provider: 'hostedgit'
+      source_provider: 'githubconsolidated'
   tekton-catalog-repo:
     service_id: >
       if ( $env.ENABLE_SETUP_WIZARD === 'true' ) {
@@ -171,7 +165,7 @@ form:
   satconfig_pipeline:
     parameters:
       api-key: >
-        $env.ibmCloudApiKey ? '{{ibmCloudApiKey}}' : '{vault::ibmcloud-api-key}'
+        $env.ibmCloudApiKey ? '{{ibmCloudApiKey}}' : ''
       configuration-name: >
         $env.configurationName ? '{{configurationName}}' : ''
       repo-url: '{{services.source-repo.parameters.repo_url}}'

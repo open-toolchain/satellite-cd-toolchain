@@ -72,6 +72,7 @@ spec:
             echo "SATELLITE_CLUSTER_GROUP :- ${SATELLITE_CLUSTER_GROUP}"
             echo "MANIFEST_DIR $MANIFEST_DIR"
             source <(curl -sSL "https://raw.githubusercontent.com/akshaykumar-vijapur/scripts/main/deploy_to_satellite.sh")
+            #source <(curl -sSL "$(params.commons-hosted-region)/scripts/deploy_to_satellite.sh")
         - name: post-execution-script
           value: |
             # Keep APP_URL in build.properties shuttle file

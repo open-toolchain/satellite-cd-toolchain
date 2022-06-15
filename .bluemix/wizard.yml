@@ -26,8 +26,11 @@ steps:
     form: wizard_manifest
     advanced_form: source-repo
     conditions:
-      $ref: conditions.yml#/inv_repo_conditions    
-
+      $ref: conditions.yml#/inv_repo_conditions
+  - name: pipelinesettings
+    title:
+      $ref: "#/messages/wizard.step.pipelinesettings.title"
+    form: pipeline_settings_form
   - name: vault
     title:
       $ref: "#/messages/wizard.step.vault.title"
@@ -122,10 +125,6 @@ steps:
           - form: wizard_vault
             parameter: hashicorp-vault
             value: true
-  - name: pipelinesettings
-    title:
-      $ref: "#/messages/wizard.step.pipelinesettings.title"
-    form: pipeline_settings_form
 
   - name: deploysatconfig
     title:
