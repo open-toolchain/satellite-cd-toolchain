@@ -158,7 +158,7 @@ form:
   pipeline_settings_form:
     parameters:
       pipeline-name: >
-        $env.pipelineName ? '{{pipelineName}}' : ''
+        $env.pipelineName ? '{{pipelineName}}' : 'Satellite-config-pipeline'
     schema:
       $ref: pipeline_settings.json
 
@@ -176,7 +176,7 @@ form:
       satellite-cluster-group: >
         $env.satelliteClusterGroup ? '{{satelliteClusterGroup}}' : ''
       prod-cluster-namespace: >
-        $env.prodClusterNamespace ? '{{prodClusterNamespace}}' : 'prod'
+        $env.prodClusterNamespace ? '{{prodClusterNamespace}}' : ''
     schema:
       $ref: deploy_sat.json
 

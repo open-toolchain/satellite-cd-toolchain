@@ -107,6 +107,12 @@
             "$ref": "#/messages/deploy.apikey"
          },
          "key": "api-key"
+      }, 
+      {
+         "type": "info",
+         "text": {
+            "$ref": "#/messages/deploy.clusterNamespace.info"
+         }
       },
       {
          "type": "text",
