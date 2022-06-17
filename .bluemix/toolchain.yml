@@ -42,7 +42,7 @@ services:
         $env.source_provider ? $env.source_provider : 'hostedgit';
       }
     parameters:
-      repo_name: "pipeline-repo-{{toolchain.name}}"
+      repo_name: "pipeline-repo-{{timestamp}}"
       repo_url: >
         if ( $env.template.info.hosted_region !== "" ) {
           "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/satellite-cd-toolchain"
@@ -69,7 +69,7 @@ services:
         $env.inv_source_provider ? $env.inv_source_provider : 'githubconsolidated';
       } 
     parameters:
-      repo_name: 'source-repo-{{toolchain.name}}'
+      repo_name: 'source-repo-{{timestamp}}'
       type: $env.type || 'clone'
       repo_url: 'https://github.com/IBM/satellite-config-example'
       source_repo_url: 'https://github.com/IBM/satellite-config-example'
@@ -85,7 +85,7 @@ services:
         $env.source_provider ? $env.source_provider : 'hostedgit';
       }
     parameters:
-      repo_name: 'tekton-catalog-{{toolchain.name}}'
+      repo_name: 'tekton-catalog-{{timestamp}}'
       repo_url: >
         if ( $env.template.info.hosted_region !== "" ) {
           "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/tekton-catalog"

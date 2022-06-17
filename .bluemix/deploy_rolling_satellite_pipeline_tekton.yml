@@ -56,10 +56,6 @@ triggers:
         value:
           "0": true
           "1": false
-  - type: manual
-    name: prod-deploy
-    eventListener: prod-deploy
-    properties:
       - name: cluster-namespace
         value: ${CLUSTER_NAMESPACE}
         type: text
@@ -72,24 +68,27 @@ triggers:
       - name: configuration-name
         value: ${CONFIGURATION_NAME}
         type: text
-      - name: source-repo
-        value: ${INVENTORY_REPO}
-        type: integration
-        path: parameters.repo_url  
-      - name: commons-hosted-region
-        value: ${COMMONS_HOSTED_REGION}
-        type: text
-      - name: satellite-cluster-group
-        value: ${SATELLITE_CLUSTER_GROUP}
-        type: text
-      - name: pipeline-name
-        value: ${PIPELINE_NAME}
-        type: text
+  - type: manual
+    name: ${DEPLOYMENT_BRANCH}-${DIRECTORY_PATH}-deploy-trigger
+    eventListener: prod-deploy
+    properties:
       - name: pipeline-debug
         type: single_select
         value:
           "0": true
           "1": false
+      - name: cluster-namespace
+        value: ${CLUSTER_NAMESPACE}
+        type: text
+      - name: deployment-branch
+        value: ${DEPLOYMENT_BRANCH}
+        type: text
+      - name: directory-path
+        value: ${DIRECTORY_PATH}
+        type: text
+      - name: configuration-name
+        value: ${CONFIGURATION_NAME}
+        type: text
 
 properties:
   - type: secure
@@ -98,18 +97,6 @@ properties:
   - name: apikey
     value: ${API_KEY}
     type: SECURE
-  - name: cluster-namespace
-    value: ${CLUSTER_NAMESPACE}
-    type: text
-  - name: deployment-branch
-    value: ${DEPLOYMENT_BRANCH}
-    type: text
-  - name: directory-path
-    value: ${DIRECTORY_PATH}
-    type: text
-  - name: configuration-name
-    value: ${CONFIGURATION_NAME}
-    type: text
   - name: source-repo
     value: ${INVENTORY_REPO}
     type: integration
