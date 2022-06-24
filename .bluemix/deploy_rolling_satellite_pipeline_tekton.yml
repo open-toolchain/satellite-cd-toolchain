@@ -68,27 +68,6 @@ triggers:
       - name: configuration-name
         value: ${CONFIGURATION_NAME}
         type: text
-  - type: manual
-    name: ${DEPLOYMENT_BRANCH}-${DIRECTORY_PATH}-deploy-trigger
-    eventListener: prod-deploy
-    properties:
-      - name: pipeline-debug
-        type: single_select
-        value:
-          "0": true
-          "1": false
-      - name: cluster-namespace
-        value: ${CLUSTER_NAMESPACE}
-        type: text
-      - name: deployment-branch
-        value: ${DEPLOYMENT_BRANCH}
-        type: text
-      - name: directory-path
-        value: ${DIRECTORY_PATH}
-        type: text
-      - name: configuration-name
-        value: ${CONFIGURATION_NAME}
-        type: text
 
 properties:
   - type: secure
@@ -110,11 +89,5 @@ properties:
   - name: pipeline-name
     value: ${PIPELINE_NAME}
     type: text
-  - name: pipeline-debug
-    type: single_select
-    value:
-      "0": true
-      "1": false
-
 
   
