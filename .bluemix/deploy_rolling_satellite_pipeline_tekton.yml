@@ -75,6 +75,8 @@ properties:
     value: ${API_KEY}
   - name: apikey
     value: ${API_KEY}
+  - name: git-token
+    type: secure
     type: SECURE
   - name: source-repo
     value: ${INVENTORY_REPO}
