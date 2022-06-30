@@ -16,6 +16,9 @@ spec:
       default: "0"
     - name: apikey
     - name: toolchain-apikey
+    - name: git-token
+      description: access token for the git repo
+      default: ""
     - name: source-repo
       description: The variable storing git integration for the repository storing build deployment files.
     - name: api
@@ -62,6 +65,8 @@ spec:
             value: $(params.apikey)
           - name: toolchain-apikey
             value: $(params.toolchain-apikey)
+          - name: git-token
+            value: $(params.git-token)
           - name: source-repo
             value: $(params.source-repo) 
           - name: commons-hosted-region
