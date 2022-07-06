@@ -47,6 +47,24 @@ triggers:
     service: ${INVENTORY_REPO}
     branch: ${DEPLOYMENT_BRANCH}
     events: { "push": true }
+    properties:
+      - name: pipeline-debug
+        type: single_select
+        value:
+          "0": true
+          "1": false
+      - name: cluster-namespace
+        value: ${CLUSTER_NAMESPACE}
+        type: text
+      - name: deployment-branch
+        value: ${DEPLOYMENT_BRANCH}
+        type: text
+      - name: directory-path
+        value: ${DIRECTORY_PATH}
+        type: text
+      - name: configuration-name
+        value: ${CONFIGURATION_NAME}
+        type: text
   - type: manual
     name: manual-run
     eventListener: manual-run
