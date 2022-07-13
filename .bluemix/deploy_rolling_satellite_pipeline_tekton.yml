@@ -88,13 +88,14 @@ triggers:
         type: text
 
 properties:
-  - type: secure
+  - type: SECURE
     name: toolchain-apikey
     value: ${API_KEY}
   - name: apikey
     value: ${API_KEY}
+    type: SECURE
   - name: git-token
-    type: secure
+    type: SECURE
   - name: source-repo
     value: ${INVENTORY_REPO}
     type: integration
