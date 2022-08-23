@@ -893,12 +893,12 @@
 	</g>
 </g>
 <g id="Text">
-	<text transform="matrix(0.9993 0 0 1 48.4653 272.5914)" class="st324 st325">Issue</text>
-	<text transform="matrix(0.9993 0 0 1 41.7148 289.3912)" class="st324 st325">Tracker</text>
-	<text transform="matrix(0.9993 0 0 1 282.9697 272.5919)" class="st324 st325">CD Pipeline</text>
-	<text transform="matrix(0.9993 0 0 1 534.2583 217.3761)" class="st324 st325">Trigger 2 </text>
-	<text transform="matrix(0.9993 0 0 1 170.4912 272.5922)" class="st324 st325">Source</text>
-	<text transform="matrix(0.9993 0 0 1 176.2554 289.392)" class="st324 st325">Repo</text>
+	<text id="headerSVG.issue" transform="matrix(0.9993 0 0 1 48.4653 272.5914)" class="st324 st325">Issue</text>
+	<text id="headerSVG.tracker" transform="matrix(0.9993 0 0 1 41.7148 289.3912)" class="st324 st325">Tracker</text>
+	<text id="headerSVG.cdPipeline" transform="matrix(0.9993 0 0 1 282.9697 272.5919)" class="st324 st325">CD Pipeline</text>
+	<text id="headerSVG.trigger2" transform="matrix(0.9993 0 0 1 534.2583 217.3761)" class="st324 st325">Trigger 2 </text>
+	<text id="headerSVG.source" transform="matrix(0.9993 0 0 1 170.4912 272.5922)" class="st324 st325">Source</text>
+	<text id="headerSVG.repo" transform="matrix(0.9993 0 0 1 176.2554 289.392)" class="st324 st325">Repo</text>
 	<g>
 		<path class="st8" d="M666.3,84.5c17.7,0,32-14.3,32-32s-14.3-32-32-32s-32,14.3-32,32S648.6,84.5,666.3,84.5z"/>
 		<g id="Artboard_12_">
@@ -987,8 +987,8 @@
 		<circle class="st19" cx="658" cy="106.5" r="2"/>
 		<circle class="st19" cx="644" cy="114.5" r="2"/>
 	</g>
-	<text transform="matrix(0.9993 0 0 1 670.8352 106.5499)" class="st324 st325">Satellite</text>
-	<text transform="matrix(0.9993 0 0 1 671.1648 124.3497)" class="st324 st325">Cluster group 1</text>
+	<text id="headerSVG.satellite1" transform="matrix(0.9993 0 0 1 670.8352 106.5499)" class="st324 st325">Satellite</text>
+	<text id="headerSVG.clusterGroup1" transform="matrix(0.9993 0 0 1 671.1648 124.3497)" class="st324 st325">Cluster group 1</text>
 	<g>
 		<g>
 			<g>
@@ -1563,8 +1563,8 @@
 		<circle class="st19" cx="658" cy="250.5" r="2"/>
 		<circle class="st19" cx="644" cy="258.5" r="2"/>
 	</g>
-	<text transform="matrix(0.9993 0 0 1 670.8352 250.5499)" class="st324 st325">Satellite</text>
-	<text transform="matrix(0.9993 0 0 1 671.1648 268.3497)" class="st324 st325">Cluster group 2</text>
+	<text id="headerSVG.satellite2" transform="matrix(0.9993 0 0 1 670.8352 250.5499)" class="st324 st325">Satellite</text>
+	<text id="headerSVG.clusterGroup2" transform="matrix(0.9993 0 0 1 671.1648 268.3497)" class="st324 st325">Cluster group 2</text>
 	<g>
 		<g>
 			<g>
@@ -2139,10 +2139,10 @@
 		<circle class="st19" cx="658" cy="394.5" r="2"/>
 		<circle class="st19" cx="644" cy="402.5" r="2"/>
 	</g>
-	<text transform="matrix(0.9993 0 0 1 670.8352 394.5499)" class="st324 st325">Satellite</text>
-	<text transform="matrix(0.9993 0 0 1 671.1648 412.3497)" class="st324 st325">Cluster group n </text>
-	<text transform="matrix(0.728 -0.6846 0.6851 0.7285 543.2024 129.7078)" class="st324 st325">Trigger 1 </text>
-	<text transform="matrix(0.6846 0.728 -0.7285 0.6851 540.6087 302.3632)" class="st324 st325">Trigger n </text>
+	<text id="headerSVG.satelliteN" transform="matrix(0.9993 0 0 1 670.8352 394.5499)" class="st324 st325">Satellite</text>
+	<text id="headerSVG.clusterGroupN" transform="matrix(0.9993 0 0 1 671.1648 412.3497)" class="st324 st325">Cluster group n </text>
+	<text id="headerSVG.trigger1" transform="matrix(0.728 -0.6846 0.6851 0.7285 543.2024 129.7078)" class="st324 st325">Trigger 1 </text>
+	<text id="headerSVG.triggerN" transform="matrix(0.6846 0.728 -0.7285 0.6851 540.6087 302.3632)" class="st324 st325">Trigger n </text>
 	<line class="st3" x1="412.6" y1="224.3" x2="351.6" y2="224.3"/>
 	<polyline class="st3" points="397.6,240 413.6,224 397.6,208 	"/>
 	<g id="CI_Pipeline_8_">
@@ -2182,6 +2182,7 @@
 			<circle class="st19" cx="439.5" cy="228.5" r="2"/>
 		</g>
 	</g>
-	<text transform="matrix(0.9993 0 0 1 434.0322 272.5919)" class="st341"><tspan x="0" y="0" class="st324 st325">IBM </tspan><tspan x="-34" y="16.8" class="st324 st325">Satellite Config</tspan></text>
+	<text id="headerSVG.IBM" transform="matrix(0.9993 0 0 1 434.0322 272.5919)" class="st324 st325">IBM </text>
+	<text id="headerSVG.satelliteConfig" transform="matrix(0.9993 0 0 1 400.0322 289.3919)" class="st324 st325">Satellite Config</text>
 </g>
 </svg>
