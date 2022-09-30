@@ -103,7 +103,7 @@ deploy.deployment.branch.placeholder: "배치 파일에 대한 분기를 입력�
 deploy.namespace.title: "클러스터 네임스페이스"
 deploy.namespace.PlaceHolder: "애플리케이션 배치를 위한 네임스페이스"
 deploy.namespaceDescription: "애플리케이션을 배치할 클러스터 네임스페이스의 이름을 제공하십시오."
-deploy.pipeline.info: "Delivery Pipeline에 대한 이름 제공합니다."
+deploy.pipeline.info: "Delivery Pipeline에 대한 이름을 제공합니다."
 deploy.gitops.info: "IBM Cloud Satellite 클러스터 그룹 및 IBM Cloud Satellite 구성과 함께 소스 저장소의 git 분기 및 디렉토리 경로 제공"
 deploy.clusterNamespace.info: "리소스를 배치해야 하는 클러스터 네임스페이스를 제공하십시오. 여기에 지정된 이름은 리소스 파일에 제공된 이름과 일치해야 합니다. 네임스페이스가 있는지 또는 리소스 파일을 통해 작성되었는지 확인하십시오."
 deploy.branch.tooltip: "배치 파일이 있는 git 분기를 제공합니다."
