@@ -893,8 +893,7 @@
 	</g>
 </g>
 <g id="Text">
-	<text id="headerSVG.issue" transform="matrix(0.9993 0 0 1 48.4653 272.5914)" class="st324 st325">Issue</text>
-	<text id="headerSVG.tracker" transform="matrix(0.9993 0 0 1 41.7148 289.3912)" class="st324 st325">Tracker</text>
+	<text id="headerSVG.issueTracker" transform="matrix(0.9993 0 0 1 27.4653 272.5914)" class="st324 st325">Issue Tracker</text>
 	<text id="headerSVG.cdPipeline" transform="matrix(0.9993 0 0 1 282.9697 272.5919)" class="st324 st325">CD Pipeline</text>
 	<text id="headerSVG.trigger2" transform="matrix(0.9993 0 0 1 534.2583 217.3761)" class="st324 st325">Trigger 2 </text>
 	<text id="headerSVG.sourceRepo" transform="matrix(0.9993 0 0 1 170.4912 272.5922)" class="st324 st325">Source</text>
