@@ -42,7 +42,7 @@ spec:
       mountPath: /artifacts
   steps:
     - name: execute
-      image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.46
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.72
       workingDir: /artifacts
       env:
         - name: BUILD_NUMBER
