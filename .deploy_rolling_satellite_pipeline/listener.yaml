@@ -1,5 +1,5 @@
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: TriggerTemplate
 metadata:
   name: trigger-template-cd-satellite
@@ -26,8 +26,6 @@ spec:
       default: "https://cloud.ibm.com"
     - name: commons-hosted-region
       default: "https://raw.githubusercontent.com/open-toolchain/commons/master"
-    - name: insights
-      description: The variable storing DevOps Insight integration with the toolchain
     - name: satellite-cluster-group
       description: Satelite Cluster Group
     - name: deployment-file
@@ -45,7 +43,7 @@ spec:
         volumeMode: Filesystem
         accessModes:
           - ReadWriteOnce
-    - apiVersion: tekton.dev/v1beta1
+    - apiVersion: tekton.dev/v1
       kind: PipelineRun
       metadata:
         name: cd-pipeline-$(uid)
@@ -71,10 +69,8 @@ spec:
             value: $(params.source-repo) 
           - name: commons-hosted-region
             value: $(params.commons-hosted-region)
-          - name: insights
-            value: $(params.insights) 
           - name: satellite-cluster-group
-            value: $(params.satellite-cluster-group) 
+            value: $(params.satellite-cluster-group)
           - name: cluster-namespace
             value: $(params.cluster-namespace) 
           - name: deployment-file
@@ -86,21 +82,21 @@ spec:
             persistentVolumeClaim:
               claimName: cd-pipeline-$(uid)-pvc
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: TriggerBinding
 metadata:
   name: trigger-binding-manual
 spec:
   params:
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: TriggerBinding
 metadata:
   name: trigger-binding-additional-manual
 spec:
   params:
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: EventListener
 metadata:
   name: prod-deploy
@@ -112,7 +108,7 @@ spec:
         name: trigger-template-cd-satellite
 
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: EventListener
 metadata:
   name: manual-run
@@ -123,7 +119,7 @@ spec:
       template:
         name: trigger-template-cd-satellite
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: TriggerBinding
 metadata:
   name: github-ent-commit
@@ -140,7 +136,7 @@ spec:
     - name: scm-type
       value: "github-ent"
 ---        
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: EventListener
 metadata:
   name: github-ent-commit
@@ -151,7 +147,7 @@ spec:
       template:
         name: trigger-template-cd-satellite
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: TriggerBinding
 metadata:
   name: github-commit
@@ -168,7 +164,7 @@ spec:
     - name: scm-type
       value: "github"
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: EventListener
 metadata:
   name: github-commit
@@ -179,7 +175,7 @@ spec:
       template:
         name: trigger-template-cd-satellite
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: TriggerBinding
 metadata:
   name: grit-or-gitlab-commit
@@ -196,7 +192,7 @@ spec:
     - name: scm-type
       value: "gitlab"
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: EventListener
 metadata:
   name: grit-or-gitlab-commit
@@ -207,7 +203,7 @@ spec:
       template:
         name: trigger-template-cd-satellite
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: TriggerBinding
 metadata:
   name: bitbucket-commit
@@ -226,7 +222,7 @@ spec:
     - name: scm-type
       value: "bitbucket"
 ---
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: EventListener
 metadata:
   name: bitbucket-commit

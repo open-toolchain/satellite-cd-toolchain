@@ -63,8 +63,6 @@ wizard.vault.hashicorp.description: "HashiCorp Vault 是一种私钥管理解决
 wizard.vault.info: "请识别包含您的私钥的私钥提供者："
 wizard.optional.tools.title: "其他工具"
 wizard.optional.tools.longDescription: "这些是可选工具，可包含在工具链中。"
-wizard.optional.tools.doi.title: "DevOps Insights（无需配置）"
-wizard.optional.tools.doi.description: "DevOps Insights 通过常见的持续集成和持续交付工具为您提供全面的洞察，从而可以更好地控制应用程序交付，加快交付速度。"
 wizard.summary.title: "摘要"
 wizard.summary.success.title: "恭喜"
 wizard.summary.success.subtitle: "祝贺您！ 即将配置 [IBM Cloud Satellite](https://cloud.ibm.com/satellite/overview) ![](https://cloud.ibm.com/media/docs/images/icons/launch-glyph.svg) 工具链。 单击**创建工具链**后，系统会将您转至自己的工具链。 \n\n 在 [IBM Cloud Satellite 配置](https://cloud.ibm.com/satellite/configuration) ![](https://cloud.ibm.com/media/docs/images/icons/launch-glyph.svg)下，您将看到用于在 IBM Cloud Satellite 上托管的集群上部署应用程序的配置。\n\n\n\n **如果要通过使用单个 Delivery Pipeline** 来部署多个应用程序，那么可以创建具有不同特定于应用程序的环境属性的多个触发器。 要了解有关在 Delivery Pipeline 中创建触发器的更多信息，请访问 [配置 Delivery Pipeline](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tekton-pipelines#configure_tekton_pipeline) ![](https://cloud.ibm.com/media/docs/images/icons/launch-glyph.svg)。"
