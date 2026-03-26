@@ -13,6 +13,7 @@ spec:
     - name: directory-path
       description: directory where deployment files are located
     - name: pipeline-debug
+      description: Pipeline debug mode. Value can be 0 or 1.
       default: "0"
     - name: apikey
     - name: toolchain-apikey
@@ -29,6 +30,7 @@ spec:
     - name: satellite-cluster-group
       description: Satelite Cluster Group
     - name: deployment-file
+      description: file containing the kubernetes deployment definition
     - name: pipeline-name
     - name: cluster-namespace
   resourcetemplates:
@@ -112,6 +114,8 @@ apiVersion: tekton.dev/v1
 kind: EventListener
 metadata:
   name: manual-run
+  annotations:
+    tekton.dev/displayName: "manual run listener"
 spec:
   triggers:
     - binding:
@@ -140,6 +144,8 @@ apiVersion: tekton.dev/v1
 kind: EventListener
 metadata:
   name: github-ent-commit
+  annotations:
+    tekton.dev/displayName: "github enterprise commit push event listener"
 spec:
   triggers:
     - bindings: 
@@ -168,6 +174,8 @@ apiVersion: tekton.dev/v1
 kind: EventListener
 metadata:
   name: github-commit
+  annotations:
+    tekton.dev/displayName: "github commit push event listener"
 spec:
   triggers:
     - bindings:  
@@ -196,6 +204,8 @@ apiVersion: tekton.dev/v1
 kind: EventListener
 metadata:
   name: grit-or-gitlab-commit
+  annotations:
+    tekton.dev/displayName: "GRIT/gitlab commit push event listener"
 spec:
   triggers:
     - bindings:   
@@ -226,6 +236,8 @@ apiVersion: tekton.dev/v1
 kind: EventListener
 metadata:
   name: bitbucket-commit
+  annotations:
+    tekton.dev/displayName: "bitbucket commit push event listener"
 spec:
   triggers:
     - binding:
